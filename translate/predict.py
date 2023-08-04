@@ -51,17 +51,13 @@ def greedy_decode(model, src, src_mask, max_len, start_symbol):
 def translate(model: torch.nn.Module, src_sentence: str):
     model.eval()
     print(src_sentence)
-    # src = [data.en_word_dict[t] if t in data.en_word_dict else data.en_word_dict["UNK"] for t in ["BOS"] + word_tokenize(src_sentence.lower()) + ["EOS"]]
-    src = [train_iter.src_enc_dict.get(t, UNK_IDX) for t in train_iter.token_transform(src_sentence.lower())]
+    src = [train_iter.src_enc_dict.get(t, UNK_IDX) for t in train_iter.token_transform(src_sentence)]
 
-    # src = text_transform[SRC_LANGUAGE](src_sentence).view(-1, 1)
     src = torch.transpose(torch.tensor(src).long().unsqueeze(0), 0, 1).to(DEVICE)
-    # src = np.transpose(torch.from_numpy(np.array(src)).long().unsqueeze(0)).to(DEVICE)
     num_tokens = src.shape[0]
     src_mask = (torch.zeros(num_tokens, num_tokens)).type(torch.bool)
     tgt_tokens = greedy_decode(
         model,  src, src_mask, max_len=num_tokens + 10, start_symbol=BOS_IDX).flatten()
-    # return " ".join([data.cn_index_dict[t] for t in list(tgt_tokens.cpu().numpy())]).replace("<bos>", "").replace("<eos>", "")
     return " ".join([train_iter.tgt_dec_dict.get(t, 'UNK') for t in list(tgt_tokens.cpu().numpy())])
 
 print(translate(transformer, "Anyone can do that."))

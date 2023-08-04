@@ -74,7 +74,7 @@ def train_epoch(model, optimizer):
 
         optimizer.step()
         losses += loss.item()
-    # return losses / len(train_data)
+        
     return losses / len(train_iter)
 
 dicts = {}
