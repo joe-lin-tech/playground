@@ -15,23 +15,23 @@ class EmotionDataset(Dataset):
         self.emotions = []
         self.vocab = set()
 
-        # with open(path) as f:
-        #     for line in f:
-        #         line = line.split('\t')
-        #         comment = self.token_transform(line[0])
-        #         self.comments.append(comment)
-        #         for c in comment:
-        #             self.vocab.add(c)
-        #         self.emotions.append([int(l) for l in line[1].split(',')])
-
         with open(path) as f:
             for line in f:
-                line = json.loads(line)
-                comment = self.token_transform(line['text'])
+                line = line.split('\t')
+                comment = self.token_transform(line[0])
                 self.comments.append(comment)
                 for c in comment:
                     self.vocab.add(c)
-                self.emotions.append([int(line['label'])])
+                self.emotions.append([int(l) for l in line[1].split(',')])
+
+        # with open(path) as f:
+        #     for line in f:
+        #         line = json.loads(line)
+        #         comment = self.token_transform(line['text'])
+        #         self.comments.append(comment)
+        #         for c in comment:
+        #             self.vocab.add(c)
+        #         self.emotions.append([int(line['label'])])
         
         self.vocab = { w: i + 2 for i, w in enumerate(sorted(self.vocab)) }
         self.vocab['<unk>'] = 0

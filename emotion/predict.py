@@ -27,15 +27,26 @@ def classify(model: torch.nn.Module, input_sentence: str):
     return output, EMOTIONS[output]
 
 
-import json
+# import json
+# count = 0
+# total = 0
+# with open('../data/emotion/test-emotion.txt') as f:
+#     for line in f:
+#         line = json.loads(line)
+#         comment = line['text']
+#         result, _ = classify(classifier, comment)
+#         if result in [int(line['label'])]:
+#             total += 1
+#         count += 1
+# print(total / count)
 count = 0
 total = 0
-with open('../data/emotion/test-emotion.txt') as f:
+with open('../data/emotion/train.tsv') as f:
     for line in f:
-        line = json.loads(line)
-        comment = line['text']
-        result, _ = classify(classifier, comment)
-        if result in [int(line['label'])]:
+        line = line.split('\t')
+        result, _ = classify(classifier, line[0])
+        if result in [int(l) for l in line[1].split(',')]:
             total += 1
         count += 1
 print(total / count)
+print(classify(classifier, "This is very depressing!"))

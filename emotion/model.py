@@ -10,7 +10,7 @@ class WordEmbedding(nn.Module):
         super(WordEmbedding, self).__init__()
         self.vocab_dict = vocab_dict
         self.emb_size = emb_size
-        self.build_dict('../data/emotion/glove.6B/glove.6B.100d.txt')
+        self.build_dict('../data/emotion/glove.6B/glove.6B.300d.txt')
         self.embedding = nn.Embedding.from_pretrained(self.embedding_matrix, freeze=True)
 
     def build_dict(self, path: str):
@@ -40,8 +40,10 @@ class EmotionClassifier(nn.Module):
     def __init__(self, vocab_dict: dict, emb_size: int, dim_lstm: int, dim_linear: int):
         super(EmotionClassifier, self).__init__()
         self.word_embedding = WordEmbedding(vocab_dict, emb_size)
-        self.lstm = nn.LSTM(input_size=emb_size, hidden_size=dim_lstm, num_layers=2)
-        # self.lstm = nn.LSTM(input_size=emb_size, hidden_size=dim_lstm, num_layers=3)
+        # self.word_embedding = nn.Embedding(len(vocab_dict), emb_size)
+        # self.lstm = nn.LSTM(input_size=emb_size, hidden_size=dim_lstm, num_layers=1)
+        self.lstm = nn.LSTM(input_size=emb_size, hidden_size=dim_lstm, num_layers=2, dropout=0.5)
+        # self.lstm = nn.LSTM(input_size=emb_size, hidden_size=dim_lstm, num_layers=5, dropout=0.5)
         self.flatten = nn.Flatten()
         self.linear = nn.Linear(dim_lstm * TOKEN_LENGTH, dim_linear)
         self.out = nn.Linear(dim_linear, len(EMOTIONS))
