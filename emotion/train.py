@@ -13,7 +13,6 @@ train_dataloader = DataLoader(
     train_iter, batch_size=BATCH_SIZE, collate_fn=train_iter.collate_fn)
 
 classifier = EmotionClassifier(train_iter.vocab, EMBED_SIZE, LSTM_HID_DIM, LINEAR_DIM)
-
 classifier = classifier.to(DEVICE)
 
 # loss_fn = torch.nn.CrossEntropyLoss()

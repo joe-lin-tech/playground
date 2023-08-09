@@ -2,50 +2,17 @@ import torch
 
 UNK_IDX, PAD_IDX = 0, 1
 
-EMOTIONS = [
-    'admiration',
-    'amusement',
-    'anger',
-    'annoyance',
-    'approval',
-    'caring',
-    'confusion',
-    'curiosity',
-    'desire',
-    'disappointment',
-    'disapproval',
-    'disgust',
-    'embarrassment',
-    'excitement',
-    'fear',
-    'gratitude',
-    'grief',
-    'joy',
-    'love',
-    'nervousness',
-    'optimism',
-    'pride',
-    'realization',
-    'relief',
-    'remorse',
-    'sadness',
-    'surprise',
-    'neutral',
-]
+EMOTIONS = ('admiration', 'amusement', 'anger', 'annoyance', 'approval',
+    'caring', 'confusion', 'curiosity', 'desire', 'disappointment',
+    'disapproval', 'disgust', 'embarrassment', 'excitement', 'fear',
+    'gratitude', 'grief', 'joy', 'love', 'nervousness', 'optimism',
+    'pride', 'realization', 'relief', 'remorse', 'sadness', 'surprise', 'neutral')
 
-# EMOTIONS = [
-#     'sadness',
-#     'joy',
-#     'love',
-#     'anger',
-#     'fear',
-#     'surprise'
-# ]
-
-BATCH_SIZE = 64
+# EMOTIONS = ('sadness', 'joy', 'love', 'anger', 'fear', 'surprise')
 
 DEVICE = torch.device('mps')
 
+BATCH_SIZE = 64
 EPOCHS = 25
 EMBED_SIZE = 300
 LSTM_HID_DIM = 128
@@ -53,6 +20,4 @@ LINEAR_DIM = 64
 TOKEN_LENGTH = 30
 TRAIN_FILE = '../data/emotion/train.tsv'
 DEV_FILE = '../data/emotion/dev.tsv'
-# TRAIN_FILE = '../data/emotion/train-emotion.txt'
-# DEV_FILE = '../data/emotion/dev-emotion.txt'
-SAVE_FILE = '../models/emotion2.pt'
+SAVE_FILE = '../models/emotion.pt'

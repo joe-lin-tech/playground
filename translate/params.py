@@ -1,11 +1,11 @@
 import torch
 
 UNK_IDX, PAD_IDX, BOS_IDX, EOS_IDX = 0, 1, 2, 3
-BATCH_SIZE = 64
 
 DEBUG = False
 DEVICE = torch.device('mps')
 
+BATCH_SIZE = 64
 EPOCHS = 2 if DEBUG else 10
 NUM_ENCODER_LAYERS = 3 if DEBUG else 6
 NUM_DECODER_LAYERS = 3 if DEBUG else 6
