@@ -1,0 +1,6 @@
+DEVICE = 'mps'
+BATCH_SIZE = 64
+EPOCHS = 25
+
+PRETRAIN_DIRECTORY = '/Volumes/SSD/image-net'
+ROOT_DIRECTORY = '/Volumes/SSD/voc'
