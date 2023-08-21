@@ -2,5 +2,8 @@ DEVICE = 'mps'
 BATCH_SIZE = 64
 EPOCHS = 25
 
-PRETRAIN_DIRECTORY = '/Volumes/SSD/image-net'
+CLASSES = ('')
+N_CLASSES = 1000
+
+PRETRAIN_DIRECTORY = '/Volumes/SSD/image-net/ILSVRC/Data/CLS-LOC/train'
 ROOT_DIRECTORY = '/Volumes/SSD/voc'

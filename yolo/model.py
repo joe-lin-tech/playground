@@ -1,10 +1,12 @@
 import torch.nn as nn
-import torch
+from typing import Literal
+from params import *
 
 class YOLO(nn.Module):
-    def __init__(self):
+    def __init__(self, mode: Literal['pretrain', 'train', 'test']):
         super(YOLO, self).__init__()
         # (448, 448, 3)
+        self.mode = mode
         self.conv1 = nn.Conv2d(3, 64, 7, stride=2, padding=3) # (224, 224, 64)
         self.pool1 = nn.MaxPool2d(2, 2) # (112, 112, 64)
         self.conv2 = nn.Conv2d(64, 192, 3, padding=1) # (112, 112, 192)
@@ -31,16 +33,31 @@ class YOLO(nn.Module):
         for _ in range(2):
             self.block3.append(nn.Conv2d(1024, 512, 1)) # (14, 14, 512)
             self.block3.append(nn.Conv2d(512, 1024, 3, padding=1)) # (14, 14, 1024)
-        self.block3.append(nn.Conv2d(1024, 1024, 3, padding=1)) # (14, 14, 1024)
-        self.block3.append(nn.Conv2d(1024, 1024, 3, stride=2, padding=1)) # (7, 7, 1024)
-        self.block3 = nn.Sequential(*self.block3)
 
-        self.conv3 = nn.Conv2d(1024, 1024, 3, padding=1) # (7, 7, 1024)
-        self.conv4 = nn.Conv2d(1024, 1024, 3, padding=1) # (7, 7, 1024)
+        # pretrain classification
+        if self.mode == 'pretrain':
+            self.block3 = nn.Sequential(*self.block3)
+            self.pool3 = nn.AvgPool2d(2, 2) # (7, 7, 1024)
+            self.flatten = nn.Flatten() # (50176, )
+            self.cls = nn.Linear(50176, N_CLASSES) # (CLASSES, )
+        # train detection
+        else:
+            self.block3.append(nn.Conv2d(1024, 1024, 3, padding=1)) # (14, 14, 1024)
+            self.block3.append(nn.Conv2d(1024, 1024, 3, stride=2, padding=1)) # (7, 7, 1024)
+            self.block3 = nn.Sequential(*self.block3)
+
+            self.conv3 = nn.Conv2d(1024, 1024, 3, padding=1) # (7, 7, 1024)
+            self.conv4 = nn.Conv2d(1024, 1024, 3, padding=1) # (7, 7, 1024)
 
     def forward(self, x):
         x = self.pool2(self.conv2(self.pool1(self.conv1(x))))
         x = self.block1(x)
         x = self.block2(x)
         x = self.block3(x)
-        return self.conv4(self.conv3(x))
+        
+        # pretrain classification
+        if self.mode == 'pretrain':
+            return self.cls(self.flatten(self.pool3(x)))
+        # train detection
+        else:
+            return self.conv4(self.conv3(x))
