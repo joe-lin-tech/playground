@@ -13,11 +13,11 @@ EMOTIONS = ('admiration', 'amusement', 'anger', 'annoyance', 'approval',
 DEVICE = torch.device('mps')
 
 BATCH_SIZE = 64
-EPOCHS = 25
-EMBED_SIZE = 300
-LSTM_HID_DIM = 128
-LINEAR_DIM = 64
-TOKEN_LENGTH = 30
+EPOCHS = 5
+MAX_LENGTH = 40
+LEARNING_RATE = 5e-6
+SEED = 5
+LOG_INTERVAL = 8
 TRAIN_FILE = '../data/emotion/train.tsv'
 DEV_FILE = '../data/emotion/dev.tsv'
-SAVE_FILE = '../models/emotion.pt'
+SAVE_FILE = '../models/emotion_bert.pt'
