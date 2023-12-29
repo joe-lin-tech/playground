@@ -1,11 +1,16 @@
-DEVICE = 'mps'
-BATCH_SIZE = 64
-EPOCHS = 1
+import torch
 
-CLASSES = ('')
+DEVICE = torch.device('mps')
+BATCH_SIZE = 64
+LOG_INTERVAL = 8
+EPOCHS = 10
+
 N_CLASSES = 1000
 
-PRETRAIN_DIRECTORY = '/Volumes/SSD/image-net/ILSVRC/Data/CLS-LOC/train'
+SEED = 0
+LEARNING_RATE = 0.01
+
+PRETRAIN_DIRECTORY = '/Volumes/SSD/image-net/ILSVRC/Data/CLS-LOC'
 ROOT_DIRECTORY = '/Volumes/SSD/voc'
 
 PRETRAIN_SAVE_FILE = '../models/pretrain.pt'
