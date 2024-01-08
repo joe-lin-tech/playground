@@ -19,6 +19,9 @@ Note: This version is an older commit and can be accessed [here](https://github.
 ### SqueezeBERT
 The current project version fine tunes a pretrained SqueezeBERT, which is at its base a BERT-based architecture but integrates core Computer Vision techniques to boost model efficiency. SqueezeBERT replaces position-wise fully connected layers in BERT with grouped convolutions, which are much less computationally expensive [[3]](#3). This enables SqueezeBERT to achieve reduced inference times, especially on smaller devices.
 
+For reference, the base BERT architecture and training procedure that SqueezeBERT is built on top of is shown below [[4]](#4):
+![BERT architecture](references/bert.jpeg)
+
 ## References
 <a id="1">[1]</a> 
 S. Hochreiter and J. Schmidhuber. Long Short-Term Memory. 1997.
@@ -29,3 +32,7 @@ J. Pennington and R. Socher and Christopher D. Manning. 2014.
 <a id="3">[3]</a>
 F. Iandola and A. Shaw and R. Krishna and K. Keutzer. SqueezeBERT: What can computer vision teach NLP
 about efficient neural networks? 2020.
+
+<a id="4">[4]</a>
+J. Devlin and M. Chang and K. Lee and K. Toutanova. BERT: Pre-training of Deep Bidirectional Transformers for
+Language Understanding. 2019.
